@@ -103,7 +103,7 @@ class RtEval(object):
                 'hackbench'  : 'module',
                 },
             'kcompile' : {
-                'source'     : 'linux-2.6.21.tar.bz2',
+                'source'     : 'linux-3.1.1.tar.bz2',
                 'jobspercore': '2',
                 },
             'hackbench' : {

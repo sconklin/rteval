@@ -31,7 +31,7 @@ sys.pathconf = "."
 import load
 import xmlout
 
-kernel_prefix="linux-2.6"
+kernel_prefix="linux-3.1"
 
 class Kcompile(load.Load):
     def __init__(self, params={}):
