@@ -31,7 +31,7 @@ PREFIX  :=      /usr
 DATADIR	:=	$(DESTDIR)/$(PREFIX)/share
 CONFDIR	:=	$(DESTDIR)/etc
 MANDIR	:=	$(DESTDIR)/$(PREFIX)/share/man
-PYLIB	:= 	$(DESTDIR)$(shell python -c 'import distutils.sysconfig;  print distutils.sysconfig.get_python_lib()')
+PYLIB	:= 	$(DESTDIR)$(shell python -c 'import distutils.sysconfig;  print distutils.sysconfig.get_python_lib(False, False, "/usr/local")')
 LOADDIR	:=	loadsource
 
 KLOAD	:=	$(LOADDIR)/linux-3.1.1.tar.bz2
