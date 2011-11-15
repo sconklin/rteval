@@ -35,6 +35,7 @@
 import sys
 import os
 import os.path
+import platform
 import time
 import string
 import threading
@@ -244,6 +245,22 @@ class RtEval(object):
             ret_services[s] = status
         return ret_services
             
+
+    def get_services_ubudeb(self):
+        rejects = ('capi', 'firstboot', 'functions', 'halt', 'iptables', 'ip6tables',
+                   'killall', 'lm_sensors', 'microcode_ctl', 'network', 'ntpdate',
+                   'rtctl', 'udev-post')
+        ret_services = {}
+
+        cmd = ['/usr/sbin/service', '--status-all']
+        c = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+        statuslines = c.stdout.readlines()
+        for line in statuslines:
+            statusparts = line.split()
+            if statusparts[-1] not in rejects:
+                ret_services[statusparts[-1]] = statusparts[1]
+        return ret_services
+
 
     def get_kthreads(self):
         policies = {'FF':'fifo', 'RR':'rrobin', 'TS':'other', '?':'unknown' }
@@ -610,7 +627,10 @@ class RtEval(object):
         self.numanodes = util.get_num_nodes()
         self.memsize = util.get_memory_size()
         (self.current_clocksource, self.available_clocksource) = util.get_clocksources()
-        self.services = self.get_services()
+        if platform.linux_distribution()[0] in ['Ubuntu', 'debian']:
+            self.services = self.get_services_ubudeb()
+        else:
+            self.services = self.get_services()
         self.kthreads = self.get_kthreads()
 
         onlyload = self.cmd_options.onlyload
